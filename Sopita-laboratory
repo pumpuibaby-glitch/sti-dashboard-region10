@@ -10,6 +10,17 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
     
+    <!-- 
+      คำอธิบายการเปลี่ยนแปลง:
+      1.  (ผู้ใช้ร้องขอ) ปรับ Layout: เปลี่ยน `lg:grid-cols-4` เป็น `md:grid-cols-3` เพื่อให้แสดงผล 3 คอลัมน์บนหน้าจอขนาดกลางขึ้นไป
+      2.  (ผู้ใช้ร้องขอ) เพิ่มไอคอน (SVG): เพิ่มไอคอน SVG (จาก Heroicons) เพื่อสื่อความหมายของแต่ละการ์ดให้ชัดเจนขึ้น
+      3.  (ผู้ใช้ร้องขอ) ปรับสี: ใช้สีพื้นหลังและสีไอคอนที่แตกต่างกันในแต่ละการ์ด (เช่น `bg-blue-100`, `text-blue-600`) เพื่อให้แยกแยะได้ง่าย
+      4.  (ผู้ใช้ร้องขอ) จัดวางตรงกลาง: ใช้ `flex flex-col items-center` ในแต่ละการ์ด เพื่อจัดเรียง ไอคอน -> ตัวเลข -> ข้อความ ให้อยู่กึ่งกลางในแนวตั้ง
+      5.  Refactor to Tailwind: ลบ CSS class `.kpi-card`, `.kpi-value`, `.kpi-label` ออกจาก <style> 
+          และใช้ Utility Classes ของ Tailwind (เช่น `bg-white`, `rounded-lg`, `shadow-md`, `p-6`, `text-3xl`, `font-bold`) 
+          แทนที่โดยตรงใน HTML ซึ่งทำให้คุณแก้ไขสไตล์ได้ง่ายขึ้นตามที่ต้องการ
+    -->
+
     <style>
         :root {
             --c-primary: #0066cc;
@@ -61,25 +72,11 @@
             height: 400px;
             max-height: 50vh;
         }
-        .kpi-card {
-            background-color: var(--c-card-bg);
-            border-radius: 0.5rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            padding: 1.5rem;
-            text-align: center;
-        }
-        .kpi-value {
-            font-size: 2.25rem;
-            font-weight: 700;
-            color: var(--c-primary);
-            line-height: 1.2;
-        }
-        .kpi-label {
-            font-size: 1rem;
-            font-weight: 500;
-            color: var(--c-muted);
-            margin-top: 0.5rem;
-        }
+        
+        /* เราได้ลบ .kpi-card, .kpi-value, .kpi-label ออกจากตรงนี้ 
+          เพราะเราจะใช้ Tailwind classes ใน HTML โดยตรงเพื่อความสะดวกในการแก้ไข 
+        */
+
         .table-container {
             max-height: 400px;
             overflow-y: auto;
@@ -90,12 +87,6 @@
 </head>
 <body class="antialiased">
 
-    
-    
-    
-    
-    
-
     <div class="container mx-auto max-w-7xl p-4 md:p-8">
 
         <header class="text-center mb-10">
@@ -104,85 +95,92 @@
             <p class="text-lg text-gray-500">ที่มา: ห้องปฏิบัติการทางการแพทย์ด้านควบคุมโรค สคร. 10 อุบลราชธานี, กองระบาดวิทยา (รง. 506)</p>
         </header>
 
+        <!-- ========== START: SECTION ที่แก้ไขแล้ว ========== -->
         <section class="mb-12">
             <h2 class="text-3xl font-bold mb-4">ตัวชี้วัดหลัก (Key Metrics)</h2>
             <p class="text-lg text-gray-700 mb-6">
                 ภาพรวมสถานการณ์การระบาดในเขตสุขภาพที่ 10 ณ ช่วงเวลาที่รายงาน (ตุลาคม 2568)
             </p>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div class="kpi-card">
-                    <div class="kpi-value">1,019</div>
-                    <div class="kpi-label">ผู้ป่วยสะสม (ม.ค.-ต.ค. 2568)</div>
-                </div>
-                <div class="kpi-card">
-                    <div class="kpi-value">74</div>
-                    <div class="kpi-label">ผู้ป่วยรายใหม่ (ต.ค. 2568)</div>
-                </div>
-                <div class="kpi-card">
-                    <div class="kpi-value">22.33</div>
-                    <div class="kpi-label">อัตราป่วย (ต่อแสนคน)</div>
-                </div>
-                <div class="kpi-card">
-                    <div class="kpi-value text-red-600">-8.37%</div>
-                    <div class="kpi-label">เทียบกับปีก่อน</div>
-                </div>
-            </div>
-        </section>
-
-        <section class="mb-12">
-            <h2 class="text-3xl font-bold mb-4">แนวโน้มการระบาดในพื้นที่ (5 ปี)</h2>
-            <p class="text-lg text-gray-700 mb-6">
-                กราฟเส้นแสดงจำนวนผู้ป่วยรายใหม่รายเดือนในเขตสุขภาพที่ 10 ย้อนหลัง 5 ปี (พ.ศ. 2564 - 2568) เพื่อแสดงให้เห็นแนวโน้มและฤดูกาลการระบาด
-            </p>
-            <div class="bg-white rounded-lg shadow-md p-6">
-                <div class="chart-container-bar">
-                    <canvas id="trendChart5Years"></canvas>
-                </div>
-            </div>
-        </section>
-
-        <section class="mb-12">
-            <h2 class="text-3xl font-bold mb-4">การวิเคราะห์เชิงระบาดวิทยา</h2>
-            <p class="text-lg text-gray-700 mb-6">
-                ข้อมูลการกระจายตัวของผู้ป่วยตามปัจจัยบุคคล (กลุ่มอายุ) และสัญชาติ เพื่อระบุกลุ่มเสี่ยงหลัก
-            </p>
-            <div class="grid grid-cols-1 md:grid-cols-5 gap-8">
-                <div class="md:col-span-3 bg-white rounded-lg shadow-md p-6">
-                    <h3 class="text-xl font-semibold mb-4 text-center">จำนวนผู้ป่วยตามกลุ่มอายุ (ปี 2568)</h3>
-                    <div class="chart-container-bar">
-                        <canvas id="ageChart"></canvas>
-                    </div>
-                    <p class="text-center text-gray-600 mt-4">
-                        ข้อมูลแสดงให้เห็นว่ากลุ่มวัยเจริญพันธุ์ โดยเฉพาะ 20-29 ปี (455 ราย) และ 15-19 ปี (255 ราย) เป็นกลุ่มที่มีการติดเชื้อสูงสุดอย่างชัดเจน
-                    </p>
-                </div>
-                <div class="md:col-span-2 bg-white rounded-lg shadow-md p-6">
-                    <h3 class="text-xl font-semibold mb-4 text-center">สัดส่วนผู้ป่วยตามสัญชาติ (ปี 2568)</h3>
-                    <div class="chart-container-sm">
-                        <canvas id="nationalityChart"></canvas>
-                    </div>
-                     <p class="text-center text-gray-600 mt-4">
-                        ผู้ป่วยส่วนใหญ่ (1,006 ราย) เป็นสัญชาติไทย โดยมีผู้ป่วยที่ไม่ระบุสัญชาติ 15 ราย
-                    </p>
-                </div>
-            </div>
-        </section>
-
-        <section class="mb-12">
-            <h2 class="text-3xl font-bold mb-4">การกระจายตัวเชิงพื้นที่ (เขตสุขภาพที่ 10)</h2>
-            <p class="text-lg text-gray-700 mb-6">
-                เพื่อแสดงการกระจายตัวเชิงพื้นที่ ข้อมูลถูกสรุปเป็นกราฟแท่งเปรียบเทียบรายจังหวัด และแสดงข้อมูลผู้ป่วยรายอำเภอในรูปแบบตาราง
-            </p>
             
-            <div class="grid grid-cols-1 gap-8 mb-8">
-                <div class="bg-white rounded-lg shadow-md p-6">
-                    <h3 class="text-xl font-semibold mb-4 text-center">จำนวนผู้ป่วยสะสมรายจังหวัด (ปี 2568)</h3>
-                    <div class="chart-container-bar" style="height: 350px; max-height: 45vh;">
-                        <canvas id="provinceChart"></canvas>
+            <!-- เปลี่ยนจาก lg:grid-cols-4 เป็น md:grid-cols-3 เพื่อให้แสดงแถวละ 3 card -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                
+                <!-- Card 1: ผู้ป่วยสะสม -->
+                <!-- 
+                  การ์ดนี้ใช้:
+                  - bg-white rounded-lg shadow-md: สไตล์พื้นฐานของการ์ด
+                  - p-6 flex flex-col items-center: จัดช่องว่างภายในและจัดองค์ประกอบ (ไอคอน, ตัวเลข, ข้อความ) ให้อยู่กึ่งกลาง
+                  - ไอคอน: ใช้ SVG, w-12 h-12, bg-blue-100, text-blue-600 เพื่อสร้างวงกลมสีฟ้าสำหรับไอคอน
+                  - ตัวเลข: text-3xl font-bold text-blue-800
+                  - ป้ายกำกับ: text-sm font-medium text-gray-500
+                -->
+                <div class="bg-white rounded-lg shadow-md p-6 flex flex-col items-center">
+                    <div class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-100 text-blue-600 mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 0 0-5.655-2.651c-.6-.128-1.2-.215-1.824-.265a4.5 4.5 0 0 0-1.714.265 8.98 8.98 0 0 0-2.316.62m13.5 2.056a9.38 9.38 0 0 1-5.655-2.651c-.6-.128-1.2-.215-1.824-.265a4.5 4.5 0 0 1-1.714.265 8.98 8.98 0 0 1-2.316.62m13.5 2.056A9.38 9.38 0 0 0 12 21a9.38 9.38 0 0 0-7.029 3.128m14.058-2.056a9.38 9.38 0 0 1-5.655-2.651c-.6-.128-1.2-.215-1.824-.265a4.5 4.5 0 0 1-1.714.265 8.98 8.98 0 0 1-2.316.62M3.128 17.029A9.38 9.38 0 0 1 12 21a9.38 9.38 0 0 1 8.872-3.971M3.128 17.029l.001.002.001.002A9.38 9.38 0 0 1 12 21a9.38 9.38 0 0 1 8.872-3.971M3.128 17.029A9.38 9.38 0 0 1 12 15c2.652 0 5.118.996 6.971 2.628m-13.942 0A9.38 9.38 0 0 1 12 15c2.652 0 5.118.996 6.971 2.628M12 12a4.5 4.5 0 0 0 4.5-4.5V4.5a4.5 4.5 0 0 0-9 0v3a4.5 4.5 0 0 0 4.5 4.5Z" />
+                        </svg>
                     </div>
+                    <div class="text-3xl font-bold text-blue-800">1,019</div>
+                    <div class="text-sm font-medium text-gray-500 mt-1">ผู้ป่วยสะสม (ม.ค.-ต.ค. 2568)</div>
                 </div>
-            </div>
 
+                <!-- Card 2: ผู้ป่วยรายใหม่ -->
+                <div class="bg-white rounded-lg shadow-md p-6 flex flex-col items-center">
+                    <div class="flex items-center justify-center w-12 h-12 rounded-full bg-yellow-100 text-yellow-600 mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM3 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 9.374 21c-2.331 0-4.512-.645-6.374-1.766Z" />
+                        </svg>
+                    </div>
+                    <div class="text-3xl font-bold text-yellow-800">74</div>
+                    <div class="text-sm font-medium text-gray-500 mt-1">ผู้ป่วยรายใหม่ (ต.ค. 2568)</div>
+                </div>
+
+                <!-- Card 3: อัตราป่วย -->
+                <div class="bg-white rounded-lg shadow-md p-6 flex flex-col items-center">
+                    <div class="flex items-center justify-center w-12 h-12 rounded-full bg-indigo-100 text-indigo-600 mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25A1.125 1.125 0 0 1 9.75 19.875V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" />
+                        </svg>
+                    </div>
+                    <div class="text-3xl font-bold text-indigo-800">22.33</div>
+                    <div class="text-sm font-medium text-gray-500 mt-1">อัตราป่วย (ต่อแสนคน)</div>
+                </div>
+
+                <!-- Card 4: เทียบกับปีก่อน -->
+                <div class="bg-white rounded-lg shadow-md p-6 flex flex-col items-center">
+                    <div class="flex items-center justify-center w-12 h-12 rounded-full bg-red-100 text-red-600 mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6 9 12.75l4.286-4.286a11.948 11.948 0 0 1 4.306 6.43l.776 2.898m0 0 3.182-5.511m-3.182 5.51-5.511-3.181" />
+                        </svg>
+                    </div>
+                    <div class="text-3xl font-bold text-red-600">-8.37%</div>
+                    <div class="text-sm font-medium text-gray-500 mt-1">เทียบกับปีก่อน (YTD)</div>
+                </div>
+
+                <!-- Card 5: ส่งเพาะเชื้อสะสม -->
+                <div class="bg-white rounded-lg shadow-md p-6 flex flex-col items-center">
+                    <div class="flex items-center justify-center w-12 h-12 rounded-full bg-green-100 text-green-600 mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m9.75 3.104v5.714a2.25 2.25 0 0 1-.659 1.591L5.16 15.06a2.25 2.25 0 0 0 0 3.182l5.063 5.063a2.25 2.25 0 0 0 3.182 0l5.063-5.063a2.25 2.25 0 0 0 0-3.182l-3.93-3.931a2.25 2.25 0 0 1-.659-1.591V3.104M15 3.104v5.714a2.25 2.25 0 0 0 .659 1.591l3.93 3.931a2.25 2.25 0 0 1 0 3.182l-5.063 5.063a2.25 2.25 0 0 1-3.182 0l-5.063-5.063a2.25 2.25 0 0 1 0-3.182l3.93-3.931a2.25 2.25 0 0 0 .659-1.591V3.104" />
+                        </svg>
+                    </div>
+                    <div class="text-3xl font-bold text-green-800">18</div>
+                    <div class="text-sm font-medium text-gray-500 mt-1">ส่งเพาะเชื้อสะสม(ม.ค.-ต.ค. 2568)</div>
+                </div>
+
+                <!-- Card 6: CT/NG ด้วยวิธี PCR -->
+                <div class="bg-white rounded-lg shadow-md p-6 flex flex-col items-center">
+                    <div class="flex items-center justify-center w-12 h-12 rounded-full bg-cyan-100 text-cyan-600 mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                           <path stroke-linecap="round" stroke-linejoin="round" d="M10.125 2.25h-4.5c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125v-9M10.125 2.25h.375a9 9 0 0 1 9 9v.375M10.125 2.25c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125v-9.043M16.125 9a3 3 0 0 0-3-3H6.75M16.125 9l-1.875-1.875M16.125 9H18.75m-3.75 3.75L12.75 15l-1.5-1.5" />
+                        </svg>
+                    </div>
+                    <div class="text-3xl font-bold text-cyan-800">24</div>
+                    <div class="text-sm font-medium text-gray-500 mt-1">CT/NG ด้วยวิธี PCR สะสม(ม.ค.-ต.ค. 2568)</div>
+                </div>
+
+            </div>
+        </section>
             <h3 class="text-2xl font-semibold mb-6">ข้อมูลผู้ป่วยรายอำเภอ (ปี 2568)</h3>
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 

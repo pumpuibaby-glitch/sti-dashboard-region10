@@ -179,8 +179,6 @@
                 </div>
 
             </div>
-        </section>
-
             <h3 class="text-2xl font-semibold mb-6">ข้อมูลผู้ป่วยรายอำเภอ (ปี 2568)</h3>
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 

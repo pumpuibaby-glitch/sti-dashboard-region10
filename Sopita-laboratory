@@ -228,7 +228,7 @@
                                 <td class="py-3 px-6 text-center">120</td>
                                 <td class="py-3 px-6 text-center">65</td>
                                 <td class="py-3 px-6 text-center">54</td>
-                                <td class="py-3 px-6 text-center font-bold text-blue-700">1,019</td>
+                                <td class="py-3 px-6 text-center font-bold text-blue-700">1,099</td>
                             </tr>
                         </tbody>
                     </table>
@@ -251,7 +251,7 @@
                     labels: ['2563', '2564', '2565', '2566', '2567', '2568'],
                     datasets: [{
                         label: 'ผู้ป่วยสะสม เขต 10',
-                        data: [1059, 784, 880, 1030, 1112, 1019], // ข้อมูลจริงปี 63-64, จำลองปี 65-67 ให้สอดคล้องกับปี 68
+                        data: [1059, 784, 885, 1054, 1273, 1099], // ข้อมูลจริงปี 63-64, จำลองปี 65-67 ให้สอดคล้องกับปี 68
                         borderColor: '#0066cc',
                         backgroundColor: 'rgba(0, 102, 204, 0.1)',
                         borderWidth: 3,
@@ -285,7 +285,7 @@
                     datasets: [
                         {
                             label: 'เขต 10 (แกนซ้าย)',
-                            data: [1059, 784, 880, 1030, 1112, 1019],
+                            data: [1059, 784, 885, 1054, 1273, 1099],
                             borderColor: '#0066cc',
                             backgroundColor: '#0066cc',
                             yAxisID: 'y',
@@ -294,7 +294,7 @@
                         },
                         {
                             label: 'ประเทศ (แกนขวา)',
-                            data: [6500, 5507, 6200, 7500, 8100, 7400], // Data mocked for visualization comparison
+                            data: [7761, 5507, 6904, 11888, 16582, 15394], // Data mocked for visualization comparison
                             borderColor: '#9ca3af',
                             backgroundColor: '#9ca3af',
                             borderDash: [5, 5],

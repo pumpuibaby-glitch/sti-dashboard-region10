@@ -284,7 +284,7 @@
                     labels: ['2563', '2564', '2565', '2566', '2567', '2568'],
                     datasets: [
                         {
-                            label: 'เขต 10 (แกนซ้าย)',
+                            label: 'เขต 10 ',
                             data: [1059, 784, 885, 1054, 1273, 1099],
                             borderColor: '#0066cc',
                             backgroundColor: '#0066cc',
@@ -293,7 +293,7 @@
                             borderWidth: 3
                         },
                         {
-                            label: 'ประเทศ (แกนขวา)',
+                            label: 'ประเทศ ',
                             data: [7761, 5507, 6904, 11888, 16582, 15394], // Data mocked for visualization comparison
                             borderColor: '#9ca3af',
                             backgroundColor: '#9ca3af',

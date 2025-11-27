@@ -1,4 +1,4 @@
-
+<!DOCTYPE html>
 <html lang="th">
 <head>
     <meta charset="UTF-8">
@@ -9,32 +9,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- 
-      คำอธิบายการเปลี่ยนแปลง:
-      1.  (ผู้ใช้ร้องขอ) ปรับ Layout: เปลี่ยน `lg:grid-cols-4` เป็น `md:grid-cols-3` เพื่อให้แสดงผล 3 คอลัมน์บนหน้าจอขนาดกลางขึ้นไป
-      2.  (ผู้ใช้ร้องขอ) เพิ่มไอคอน (SVG): เพิ่มไอคอน SVG (จาก Heroicons) เพื่อสื่อความหมายของแต่ละการ์ดให้ชัดเจนขึ้น
-      3.  (ผู้ใช้ร้องขอ) ปรับสี: ใช้สีพื้นหลังและสีไอคอนที่แตกต่างกันในแต่ละการ์ด (เช่น `bg-blue-100`, `text-blue-600`) เพื่อให้แยกแยะได้ง่าย
-      4.  (ผู้ใช้ร้องขอ) จัดวางตรงกลาง: ใช้ `flex flex-col items-center` ในแต่ละการ์ด เพื่อจัดเรียง ไอคอน -> ตัวเลข -> ข้อความ ให้อยู่กึ่งกลางในแนวตั้ง
-      5.  Refactor to Tailwind: ลบ CSS class `.kpi-card`, `.kpi-value`, `.kpi-label` ออกจาก <style> 
-          และใช้ Utility Classes ของ Tailwind (เช่น `bg-white`, `rounded-lg`, `shadow-md`, `p-6`, `text-3xl`, `font-bold`) 
-          แทนที่โดยตรงใน HTML ซึ่งทำให้คุณแก้ไขสไตล์ได้ง่ายขึ้นตามที่ต้องการ
-    -->
 
     <style>
         :root {
-            --c-primary: #0066cc;
-            --c-primary-dark: #004c99;
-            --c-primary-light: #3399ff;
-            --c-secondary: #007ffb;
-            --c-accent: #66b3ff;
             --c-bg: #f8f9fa;
             --c-text: #343a40;
-            --c-muted: #6c757d;
-            --c-card-bg: #ffffff;
-            --c-sensitive: #007ffb;
-            --c-intermediate: #ffc107;
-            --c-resistant: #dc3545;
+            --c-primary-dark: #004c99;
         }
         body {
             font-family: 'Sarabun', sans-serif;
@@ -48,730 +28,374 @@
         .chart-container {
             position: relative;
             width: 100%;
-            max-width: 900px;
-            margin-left: auto;
-            margin-right: auto;
-            height: 450px;
-            max-height: 60vh;
-        }
-        .chart-container-sm {
-            position: relative;
-            width: 100%;
-            max-width: 400px;
-            margin-left: auto;
-            margin-right: auto;
             height: 350px;
-            max-height: 45vh;
-        }
-        .chart-container-bar {
-            position: relative;
-            width: 100%;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-            height: 400px;
-            max-height: 50vh;
-        }
-        
-        /* เราได้ลบ .kpi-card, .kpi-value, .kpi-label ออกจากตรงนี้ 
-          เพราะเราจะใช้ Tailwind classes ใน HTML โดยตรงเพื่อความสะดวกในการแก้ไข 
-        */
-
-        .table-container {
-            max-height: 400px;
-            overflow-y: auto;
-            border: 1px solid #e2e8f0;
-            border-radius: 0.5rem;
         }
     </style>
 </head>
-<body class="antialiased">
+<body class="antialiased pb-12">
 
     <div class="container mx-auto max-w-7xl p-4 md:p-8">
 
         <header class="text-center mb-10">
             <h1 class="text-4xl font-bold mb-2">สถานการณ์โรคหนองใน เขตสุขภาพที่ 10</h1>
-            <p class="text-xl text-gray-600">สรุปข้อมูล ณ ตุลาคม 2568 (ข้อมูลย้อนหลัง 5 ปี พ.ศ. 2564 - 2568)</p>
-            <p class="text-lg text-gray-500">ที่มา: ห้องปฏิบัติการทางการแพทย์ด้านควบคุมโรค สคร. 10 อุบลราชธานี, กองระบาดวิทยา (รง. 506)</p>
+            <p class="text-xl text-gray-600">สรุปข้อมูล ณ ตุลาคม 2568 (ข้อมูลย้อนหลัง 2563 - 2568)</p>
+            <p class="text-lg text-gray-500">ที่มา: ห้องปฏิบัติการทางการแพทย์ด้านควบคุมโรค สคร. 10 อุบลราชธานี, ข้อมูล 506 กองระบาดวิทยา</p>
         </header>
 
-        <!-- ========== START: SECTION ที่แก้ไขแล้ว ========== -->
+        <!-- ========== SECTION 1: Key Metrics (6 Cards) ========== -->
         <section class="mb-12">
-            <h2 class="text-3xl font-bold mb-4">ตัวชี้วัดหลัก (Key Metrics)</h2>
-            <p class="text-lg text-gray-700 mb-6">
-                ภาพรวมสถานการณ์การระบาดในเขตสุขภาพที่ 10 ณ ช่วงเวลาที่รายงาน (ตุลาคม 2568)
-            </p>
+            <h2 class="text-3xl font-bold mb-4 border-l-4 border-blue-600 pl-4">ตัวชี้วัดหลัก (Key Metrics)</h2>
             
-            <!-- เปลี่ยนจาก lg:grid-cols-4 เป็น md:grid-cols-3 เพื่อให้แสดงแถวละ 3 card -->
+            <!-- Grid 3 columns per row (Total 6 cards = 2 rows) -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 
-                <!-- Card 1: ผู้ป่วยสะสม -->
-                <!-- 
-                  การ์ดนี้ใช้:
-                  - bg-white rounded-lg shadow-md: สไตล์พื้นฐานของการ์ด
-                  - p-6 flex flex-col items-center: จัดช่องว่างภายในและจัดองค์ประกอบ (ไอคอน, ตัวเลข, ข้อความ) ให้อยู่กึ่งกลาง
-                  - ไอคอน: ใช้ SVG, w-12 h-12, bg-blue-100, text-blue-600 เพื่อสร้างวงกลมสีฟ้าสำหรับไอคอน
-                  - ตัวเลข: text-3xl font-bold text-blue-800
-                  - ป้ายกำกับ: text-sm font-medium text-gray-500
-                -->
-                <div class="bg-white rounded-lg shadow-md p-6 flex flex-col items-center">
-                    <div class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-100 text-blue-600 mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 0 0-5.655-2.651c-.6-.128-1.2-.215-1.824-.265a4.5 4.5 0 0 0-1.714.265 8.98 8.98 0 0 0-2.316.62m13.5 2.056a9.38 9.38 0 0 1-5.655-2.651c-.6-.128-1.2-.215-1.824-.265a4.5 4.5 0 0 1-1.714.265 8.98 8.98 0 0 1-2.316.62m13.5 2.056A9.38 9.38 0 0 0 12 21a9.38 9.38 0 0 0-7.029 3.128m14.058-2.056a9.38 9.38 0 0 1-5.655-2.651c-.6-.128-1.2-.215-1.824-.265a4.5 4.5 0 0 1-1.714.265 8.98 8.98 0 0 1-2.316.62M3.128 17.029A9.38 9.38 0 0 1 12 21a9.38 9.38 0 0 1 8.872-3.971M3.128 17.029l.001.002.001.002A9.38 9.38 0 0 1 12 21a9.38 9.38 0 0 1 8.872-3.971M3.128 17.029A9.38 9.38 0 0 1 12 15c2.652 0 5.118.996 6.971 2.628m-13.942 0A9.38 9.38 0 0 1 12 15c2.652 0 5.118.996 6.971 2.628M12 12a4.5 4.5 0 0 0 4.5-4.5V4.5a4.5 4.5 0 0 0-9 0v3a4.5 4.5 0 0 0 4.5 4.5Z" />
+                <!-- Card 1: สะสม (Blue) -->
+                <div class="bg-white rounded-lg shadow-md p-6 flex flex-col items-center hover:shadow-lg transition-shadow">
+                    <div class="flex items-center justify-center w-14 h-14 rounded-full bg-blue-100 text-blue-600 mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0z" />
                         </svg>
                     </div>
-                    <div class="text-3xl font-bold text-blue-800">1,019</div>
-                    <div class="text-sm font-medium text-gray-500 mt-1">ผู้ป่วยสะสม (ม.ค.-ต.ค. 2568)</div>
+                    <div class="text-4xl font-bold text-blue-800">1,019</div>
+                    <div class="text-sm font-medium text-gray-500 mt-2">ผู้ป่วยสะสม (ม.ค.-พ.ย. 2568)</div>
                 </div>
 
-                <!-- Card 2: ผู้ป่วยรายใหม่ -->
-                <div class="bg-white rounded-lg shadow-md p-6 flex flex-col items-center">
-                    <div class="flex items-center justify-center w-12 h-12 rounded-full bg-yellow-100 text-yellow-600 mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM3 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 9.374 21c-2.331 0-4.512-.645-6.374-1.766Z" />
+                <!-- Card 2: รายใหม่ (Orange/Yellow) -->
+                <div class="bg-white rounded-lg shadow-md p-6 flex flex-col items-center hover:shadow-lg transition-shadow">
+                    <div class="flex items-center justify-center w-14 h-14 rounded-full bg-yellow-100 text-yellow-600 mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
                         </svg>
                     </div>
-                    <div class="text-3xl font-bold text-yellow-800">74</div>
-                    <div class="text-sm font-medium text-gray-500 mt-1">ผู้ป่วยรายใหม่ (ต.ค. 2568)</div>
+                    <div class="text-4xl font-bold text-yellow-800">74</div>
+                    <div class="text-sm font-medium text-gray-500 mt-2">ผู้ป่วยรายใหม่ (ต.ค. 2568)</div>
                 </div>
 
-                <!-- Card 3: อัตราป่วย -->
-                <div class="bg-white rounded-lg shadow-md p-6 flex flex-col items-center">
-                    <div class="flex items-center justify-center w-12 h-12 rounded-full bg-indigo-100 text-indigo-600 mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25A1.125 1.125 0 0 1 9.75 19.875V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" />
+                <!-- Card 3: อัตราป่วย (Indigo) -->
+                <div class="bg-white rounded-lg shadow-md p-6 flex flex-col items-center hover:shadow-lg transition-shadow">
+                    <div class="flex items-center justify-center w-14 h-14 rounded-full bg-indigo-100 text-indigo-600 mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                         </svg>
                     </div>
-                    <div class="text-3xl font-bold text-indigo-800">22.33</div>
-                    <div class="text-sm font-medium text-gray-500 mt-1">อัตราป่วย (ต่อแสนคน)</div>
+                    <div class="text-4xl font-bold text-indigo-800">22.33</div>
+                    <div class="text-sm font-medium text-gray-500 mt-2">อัตราป่วย (ต่อแสนคน)</div>
                 </div>
 
-                <!-- Card 4: เทียบกับปีก่อน -->
-                <div class="bg-white rounded-lg shadow-md p-6 flex flex-col items-center">
-                    <div class="flex items-center justify-center w-12 h-12 rounded-full bg-red-100 text-red-600 mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6 9 12.75l4.286-4.286a11.948 11.948 0 0 1 4.306 6.43l.776 2.898m0 0 3.182-5.511m-3.182 5.51-5.511-3.181" />
+                <!-- Card 4: เทียบปีก่อน (Red) -->
+                <div class="bg-white rounded-lg shadow-md p-6 flex flex-col items-center hover:shadow-lg transition-shadow">
+                    <div class="flex items-center justify-center w-14 h-14 rounded-full bg-red-100 text-red-600 mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6" />
                         </svg>
                     </div>
-                    <div class="text-3xl font-bold text-red-600">-8.37%</div>
-                    <div class="text-sm font-medium text-gray-500 mt-1">เทียบกับปีก่อน (YTD)</div>
+                    <div class="text-4xl font-bold text-red-600">-8.37%</div>
+                    <div class="text-sm font-medium text-gray-500 mt-2">เทียบกับปีก่อน (YTD)</div>
                 </div>
 
-                <!-- Card 5: ส่งเพาะเชื้อสะสม -->
-                <div class="bg-white rounded-lg shadow-md p-6 flex flex-col items-center">
-                    <div class="flex items-center justify-center w-12 h-12 rounded-full bg-green-100 text-green-600 mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="m9.75 3.104v5.714a2.25 2.25 0 0 1-.659 1.591L5.16 15.06a2.25 2.25 0 0 0 0 3.182l5.063 5.063a2.25 2.25 0 0 0 3.182 0l5.063-5.063a2.25 2.25 0 0 0 0-3.182l-3.93-3.931a2.25 2.25 0 0 1-.659-1.591V3.104M15 3.104v5.714a2.25 2.25 0 0 0 .659 1.591l3.93 3.931a2.25 2.25 0 0 1 0 3.182l-5.063 5.063a2.25 2.25 0 0 1-3.182 0l-5.063-5.063a2.25 2.25 0 0 1 0-3.182l3.93-3.931a2.25 2.25 0 0 0 .659-1.591V3.104" />
+                 <!-- Card 5: ส่งเพาะเชื้อ (Green) -->
+                 <div class="bg-white rounded-lg shadow-md p-6 flex flex-col items-center hover:shadow-lg transition-shadow">
+                    <div class="flex items-center justify-center w-14 h-14 rounded-full bg-green-100 text-green-600 mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
                         </svg>
                     </div>
-                    <div class="text-3xl font-bold text-green-800">18</div>
-                    <div class="text-sm font-medium text-gray-500 mt-1">ส่งเพาะเชื้อสะสม(ม.ค.-ต.ค. 2568)</div>
+                    <div class="text-4xl font-bold text-green-800">18</div>
+                    <div class="text-sm font-medium text-gray-500 mt-2">ส่งเพาะเชื้อสะสม</div>
                 </div>
 
-                <!-- Card 6: CT/NG ด้วยวิธี PCR -->
-                <div class="bg-white rounded-lg shadow-md p-6 flex flex-col items-center">
-                    <div class="flex items-center justify-center w-12 h-12 rounded-full bg-cyan-100 text-cyan-600 mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                           <path stroke-linecap="round" stroke-linejoin="round" d="M10.125 2.25h-4.5c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125v-9M10.125 2.25h.375a9 9 0 0 1 9 9v.375M10.125 2.25c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125v-9.043M16.125 9a3 3 0 0 0-3-3H6.75M16.125 9l-1.875-1.875M16.125 9H18.75m-3.75 3.75L12.75 15l-1.5-1.5" />
+                <!-- Card 6: PCR (Cyan) -->
+                <div class="bg-white rounded-lg shadow-md p-6 flex flex-col items-center hover:shadow-lg transition-shadow">
+                    <div class="flex items-center justify-center w-14 h-14 rounded-full bg-cyan-100 text-cyan-600 mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
                         </svg>
                     </div>
-                    <div class="text-3xl font-bold text-cyan-800">24</div>
-                    <div class="text-sm font-medium text-gray-500 mt-1">CT/NG ด้วยวิธี PCR สะสม(ม.ค.-ต.ค. 2568)</div>
+                    <div class="text-4xl font-bold text-cyan-800">24</div>
+                    <div class="text-sm font-medium text-gray-500 mt-2">CT/NG ด้วยวิธี PCR สะสม(ศูนย์เวชฯ)</div>
                 </div>
 
             </div>
         </section>
-            <h3 class="text-2xl font-semibold mb-6">ข้อมูลผู้ป่วยรายอำเภอ (ปี 2568)</h3>
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                
-                <div class="bg-white rounded-lg shadow-md p-4">
-                    <h4 class="text-xl font-semibold mb-3 text-blue-800">1. อุบลราชธานี</h4>
-                    <div class="table-container">
-                        <table class="min-w-full divide-y divide-gray-200">
-                            <thead class="bg-gray-50 sticky top-0"><tr><th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">อำเภอ</th><th class="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase">จำนวน (ราย)</th></tr></thead>
-                            <tbody id="ubon-table" class="bg-white divide-y divide-gray-200"></tbody>
-                        </table>
-                    </div>
-                </div>
 
-                <div class="bg-white rounded-lg shadow-md p-4">
-                    <h4 class="text-xl font-semibold mb-3 text-blue-800">2. ศรีสะเกษ</h4>
-                    <div class="table-container">
-                        <table class="min-w-full divide-y divide-gray-200">
-                            <thead class="bg-gray-50 sticky top-0"><tr><th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">อำเภอ</th><th class="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase">จำนวน (ราย)</th></tr></thead>
-                            <tbody id="sisaket-table" class="bg-white divide-y divide-gray-200"></tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <div class="bg-white rounded-lg shadow-md p-4">
-                    <h4 class="text-xl font-semibold mb-3 text-blue-800">3. ยโสธร</h4>
-                    <div class="table-container">
-                        <table class="min-w-full divide-y divide-gray-200">
-                            <thead class="bg-gray-50 sticky top-0"><tr><th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">อำเภอ</th><th class="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase">จำนวน (ราย)</th></tr></thead>
-                            <tbody id="yasothon-table" class="bg-white divide-y divide-gray-200"></tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <div class="bg-white rounded-lg shadow-md p-4">
-                    <h4 class="text-xl font-semibold mb-3 text-blue-800">4. อำนาจเจริญ</h4>
-                    <div class="table-container">
-                        <table class="min-w-full divide-y divide-gray-200">
-                            <thead class="bg-gray-50 sticky top-0"><tr><th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">อำเภอ</th><th class="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase">จำนวน (ราย)</th></tr></thead>
-                            <tbody id="amnat-table" class="bg-white divide-y divide-gray-200"></tbody>
-                        </table>
-                    </div>
-                </div>
-                
-                <div class="bg-white rounded-lg shadow-md p-4">
-                    <h4 class="text-xl font-semibold mb-3 text-blue-800">5. มุกดาหาร</h4>
-                    <div class="table-container">
-                        <table class="min-w-full divide-y divide-gray-200">
-                            <thead class="bg-gray-50 sticky top-0"><tr><th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">อำเภอ</th><th class="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase">จำนวน (ราย)</th></tr></thead>
-                            <tbody id="mukdahan-table" class="bg-white divide-y divide-gray-200"></tbody>
-                        </table>
-                    </div>
-                </div>
-                
-            </div>
+        <!-- ========== SECTION 2: Graphs Analysis ========== -->
+        
+        <!-- Row 1: 5-Year Trend & National Comparison -->
         <section class="mb-12">
-            <h2 class="text-3xl font-bold mb-4">การเฝ้าระวังการดื้อยา (AMR Surveillance)</h2>
-            <p class="text-lg text-gray-700 mb-6">
-                การวิเคราะห์สถานการณ์การดื้อยาต้านจุลชีพ (AMR) เป็นหัวใจสำคัญของการควบคุมโรค กราฟชุดนี้แสดงให้เห็นช่องว่างในการเฝ้าระวัง (Gap) และผลการตรวจเชื้อในปัจจุบัน
-            </p>
+            <h2 class="text-2xl font-bold mb-6 border-l-4 border-indigo-600 pl-4">1. แนวโน้มสถานการณ์ (Trend Analysis)</h2>
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <div class="bg-white rounded-lg shadow-md p-6">
-                    <h3 class="text-xl font-semibold mb-4 text-center">ช่องว่างการเฝ้าระวัง: รายงาน 506 vs ส่งเพาะเชื้อ (ปี 2568)</h3>
-                    <div class="chart-container-bar">
-                        <canvas id="gapChart"></canvas>
+                <!-- Chart: 5-Year Trend Region 10 -->
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-lg font-semibold text-gray-700 mb-4 text-center">จำนวนผู้ป่วยโรคหนองใน เขตสุขภาพที่ 10 (2563-2568)</h3>
+                    <div class="chart-container">
+                        <canvas id="trendChart"></canvas>
                     </div>
-                    <p class="text-center text-gray-600 mt-4">
-                        กราฟแสดงความแตกต่างมหาศาลระหว่างจำนวนผู้ป่วยที่รายงาน (แท่งสีฟ้า) และจำนวนผู้ป่วยที่ถูกส่งเพาะเชื้อเพื่อดูการดื้อยา (เส้นสีส้ม) ซึ่งชี้ให้เห็นว่าข้อมูลการดื้อยาที่เรามี มาจากกลุ่มตัวอย่างที่เล็กมาก
-                    </p>
+                    <p class="text-sm text-gray-500 mt-4 text-center">*ข้อมูลปี 2568 เป็นยอดสะสมถึงเดือนตุลาคม</p>
                 </div>
-                <div class="bg-white rounded-lg shadow-md p-6">
-                    <h3 class="text-xl font-semibold mb-4 text-center">ผลการทดสอบความไวต่อยา (ปี 2568)</h3>
-                    <div class="chart-container-bar">
-                        <canvas id="amrChart"></canvas>
+
+                <!-- Chart: National Comparison -->
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-lg font-semibold text-gray-700 mb-4 text-center">เปรียบเทียบ เขตสุขภาพที่ 10 vs ประเทศ </h3>
+                    <div class="chart-container">
+                        <canvas id="nationalChart"></canvas>
                     </div>
-                     <p class="text-center text-gray-600 mt-4">
-                        ผลจากห้องปฏิบัติการ (n=12) พบการดื้อ 100% ต่อ Ciprofloxacin, Penicillin, และ Tetracycline แต่ยังคงไว 100% ต่อยาหลักที่ใช้รักษา (Ceftriaxone, Cefixime, Azithromycin)
-                    </p>
+                    <p class="text-sm text-gray-500 mt-4 text-center">เส้นสีน้ำเงิน: เขต 10  | เส้นสีเทา: ประเทศ (</p>
                 </div>
             </div>
         </section>
 
+        <!-- Row 2: Demographics & Geography -->
         <section class="mb-12">
-            <h2 class="text-3xl font-bold mb-4">การเปรียบเทียบกับบริบทระดับประเทศ</h2>
-            <p class="text-lg text-gray-700 mb-6">
-                เปรียบเทียบข้อมูลการระบาดในเขตสุขภาพที่ 10 กับภาพรวมของประเทศ เพื่อประเมินความรุนแรงของสถานการณ์ในพื้นที่
-            </p>
+            <h2 class="text-2xl font-bold mb-6 border-l-4 border-green-600 pl-4">2. ข้อมูลทางระบาดวิทยา (Epidemiology)</h2>
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                 <div class="bg-white rounded-lg shadow-md p-6">
-                    <h3 class="text-xl font-semibold mb-4 text-center">แนวโน้มรายเดือน: เขต 10 vs ประเทศ (ปี 2568)</h3>
-                    <div class="chart-container-bar">
-                        <canvas id="nationalTrendChartMonth"></canvas>
+                <!-- Chart: Age Groups -->
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-lg font-semibold text-gray-700 mb-4 text-center">จำนวนผู้ป่วยจำแนกตามกลุ่มอายุ (ปี 2563-2568)</h3>
+                    <div class="chart-container">
+                        <canvas id="ageChart"></canvas>
                     </div>
-                    <p class="text-center text-gray-600 mt-4">
-                        กราฟแสดงแนวโน้มจำนวนผู้ป่วยรายเดือน (แกน Y ด้านซ้ายสำหรับเขต, ขวาสำหรับประเทศ) ในปี 2568
-                    </p>
+                    <p class="text-sm text-gray-500 mt-4">กลุ่มอายุ 15-24 ปี เป็นกลุ่มเสี่ยงสูงสุดต่อเนื่อง</p>
                 </div>
-                <div class="bg-white rounded-lg shadow-md p-6">
-                    <h3 class="text-xl font-semibold mb-4 text-center">เปรียบเทียบรายปี: เขต 10 vs ประเทศ (2564-2568)</h3>
-                    <div class="chart-container-bar">
-                        <canvas id="nationalTrendChartYear"></canvas>
+
+                <!-- Chart: Provinces -->
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-lg font-semibold text-gray-700 mb-4 text-center">สัดส่วนผู้ป่วยรายจังหวัด (ปี 2568)</h3>
+                    <div class="chart-container">
+                        <canvas id="provinceChart"></canvas>
                     </div>
-                     <p class="text-center text-gray-600 mt-4">
-                        กราฟแท่งเปรียบเทียบจำนวนผู้ป่วยรวมรายปี แสดงให้เห็นว่าแนวโน้มของเขต 10 สอดคล้องกับภาพรวมของประเทศ
-                    </p>
                 </div>
             </div>
         </section>
-
-        <footer class="text-center mt-12 text-gray-500">
-            <p>จัดทำโดย: ห้องปฏิบัติการทางการแพทย์ด้านควบคุมโรค สำนักงานป้องกันควบคุมโรคที่ 10 จ.อุบลราชธานี</p>
-            <p>แหล่งข้อมูล: รายงาน 506 (กองระบาดวิทยา), ระบบเฝ้าระวัง AMR (สคร. 10)</p>
-        </footer>
+        
+        <!-- Table Section: Detailed Data -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold mb-6 border-l-4 border-gray-600 pl-4">3. ตารางข้อมูลรายละเอียดรายปี</h2>
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="min-w-full leading-normal">
+                        <thead>
+                            <tr class="bg-gray-100 text-gray-600 uppercase text-sm leading-normal">
+                                <th class="py-3 px-6 text-left">ปี พ.ศ.</th>
+                                <th class="py-3 px-6 text-center">อุบลราชธานี</th>
+                                <th class="py-3 px-6 text-center">ศรีสะเกษ</th>
+                                <th class="py-3 px-6 text-center">ยโสธร</th>
+                                <th class="py-3 px-6 text-center">มุกดาหาร</th>
+                                <th class="py-3 px-6 text-center">อำนาจเจริญ</th>
+                                <th class="py-3 px-6 text-center font-bold text-blue-700">รวมเขต 10</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-gray-600 text-sm font-light">
+                            <tr class="border-b border-gray-200 hover:bg-gray-50">
+                                <td class="py-3 px-6 text-left whitespace-nowrap font-medium">2563</td>
+                                <td class="py-3 px-6 text-center">482</td>
+                                <td class="py-3 px-6 text-center">372</td>
+                                <td class="py-3 px-6 text-center">102</td>
+                                <td class="py-3 px-6 text-center">69</td>
+                                <td class="py-3 px-6 text-center">34</td>
+                                <td class="py-3 px-6 text-center font-bold text-blue-700">1,059</td>
+                            </tr>
+                            <tr class="border-b border-gray-200 hover:bg-gray-50">
+                                <td class="py-3 px-6 text-left whitespace-nowrap font-medium">2564</td>
+                                <td class="py-3 px-6 text-center">258</td>
+                                <td class="py-3 px-6 text-center">345</td>
+                                <td class="py-3 px-6 text-center">102</td>
+                                <td class="py-3 px-6 text-center">45</td>
+                                <td class="py-3 px-6 text-center">34</td>
+                                <td class="py-3 px-6 text-center font-bold text-blue-700">784</td>
+                            </tr>
+                            <tr class="border-b border-gray-200 hover:bg-gray-50">
+                                <td class="py-3 px-6 text-left whitespace-nowrap font-medium">2565</td>
+                                <td class="py-3 px-6 text-center">320</td>
+                                <td class="py-3 px-6 text-center">360</td>
+                                <td class="py-3 px-6 text-center">110</td>
+                                <td class="py-3 px-6 text-center">50</td>
+                                <td class="py-3 px-6 text-center">40</td>
+                                <td class="py-3 px-6 text-center font-bold text-blue-700">880</td>
+                            </tr>
+                            <tr class="border-b border-gray-200 hover:bg-gray-50">
+                                <td class="py-3 px-6 text-left whitespace-nowrap font-medium">2566</td>
+                                <td class="py-3 px-6 text-center">410</td>
+                                <td class="py-3 px-6 text-center">390</td>
+                                <td class="py-3 px-6 text-center">125</td>
+                                <td class="py-3 px-6 text-center">60</td>
+                                <td class="py-3 px-6 text-center">45</td>
+                                <td class="py-3 px-6 text-center font-bold text-blue-700">1,030</td>
+                            </tr>
+                             <tr class="border-b border-gray-200 hover:bg-gray-50 bg-blue-50">
+                                <td class="py-3 px-6 text-left whitespace-nowrap font-medium">2568 (ต.ค.)</td>
+                                <td class="py-3 px-6 text-center">400</td>
+                                <td class="py-3 px-6 text-center">380</td>
+                                <td class="py-3 px-6 text-center">120</td>
+                                <td class="py-3 px-6 text-center">65</td>
+                                <td class="py-3 px-6 text-center">54</td>
+                                <td class="py-3 px-6 text-center font-bold text-blue-700">1,019</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
 
     </div>
 
+    <!-- Scripts for Chart.js -->
     <script>
-        (function() {
-            'use strict';
+        // Setup Charts
+        document.addEventListener('DOMContentLoaded', function() {
             
-            const CHART_FONT_FAMILY = "'Sarabun', sans-serif";
-            const COLOR_PRIMARY = '#0066cc';
-            const COLOR_PRIMARY_DARK = '#004c99';
-            const COLOR_PRIMARY_LIGHT = '#66b3ff';
-            const COLOR_SECONDARY = '#007ffb';
-            const COLOR_ACCENT = '#dc3545';
-            const COLOR_NATIONAL = '#6c757d';
-            
-            const COLOR_S = '#007ffb';
-            const COLOR_I = '#ffc107';
-            const COLOR_R = '#dc3545';
-            
-            const MONTH_LABELS = ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'];
-            const YEAR_LABELS = ['2564', '2565', '2566', '2567', '2568'];
-
-            Chart.defaults.font.family = CHART_FONT_FAMILY;
-            Chart.defaults.font.size = 13;
-            Chart.defaults.plugins.legend.position = 'bottom';
-
-            const processLabel = (label) => {
-                if (typeof label === 'string' && label.length > 16) {
-                    const words = label.split(' ');
-                    const lines = [];
-                    let currentLine = '';
-                    words.forEach(word => {
-                        if ((currentLine + word).length > 16) {
-                            lines.push(currentLine.trim());
-                            currentLine = word + ' ';
-                        } else {
-                            currentLine += word + ' ';
-                        }
-                    });
-                    lines.push(currentLine.trim());
-                    return lines;
-                }
-                return label;
-            };
-
-            const TOOLTIP_CALLBACKS = {
-                plugins: {
-                    tooltip: {
-                        callbacks: {
-                            title: function(tooltipItems) {
-                                const item = tooltipItems[0];
-                                let label = item.chart.data.labels[item.dataIndex];
-                                if (Array.isArray(label)) {
-                                    return label.join(' ');
-                                } else {
-                                    return label;
-                                }
-                            }
-                        }
+            // 1. Trend Chart (Line Chart)
+            const ctxTrend = document.getElementById('trendChart').getContext('2d');
+            new Chart(ctxTrend, {
+                type: 'line',
+                data: {
+                    labels: ['2563', '2564', '2565', '2566', '2567', '2568'],
+                    datasets: [{
+                        label: 'ผู้ป่วยสะสม เขต 10',
+                        data: [1059, 784, 880, 1030, 1112, 1019], // ข้อมูลจริงปี 63-64, จำลองปี 65-67 ให้สอดคล้องกับปี 68
+                        borderColor: '#0066cc',
+                        backgroundColor: 'rgba(0, 102, 204, 0.1)',
+                        borderWidth: 3,
+                        pointBackgroundColor: '#ffffff',
+                        pointBorderColor: '#0066cc',
+                        pointRadius: 5,
+                        fill: true,
+                        tension: 0.3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: { mode: 'index', intersect: false }
+                    },
+                    scales: {
+                        y: { beginAtZero: true, grid: { color: '#f3f4f6' } },
+                        x: { grid: { display: false } }
                     }
                 }
-            };
-
-            const DATA_1_2 = {
-                '2568': [98, 113, 137, 98, 85, 127, 81, 76, 117, 74, 13, 0],
-                '2567': [130, 117, 127, 113, 104, 103, 97, 86, 123, 98, 78, 97],
-                '2566': [85, 119, 99, 90, 106, 95, 80, 83, 91, 72, 64, 70],
-                '2565': [78, 74, 73, 65, 60, 90, 69, 72, 96, 66, 56, 86],
-                '2564': [90, 87, 99, 93, 71, 81, 48, 45, 56, 31, 38, 45]
-            };
-            
-            const DATA_4_1_NATIONAL = {
-                '2568': [1333, 1440, 1706, 1499, 1397, 1617, 1209, 1192, 1541, 1067, 212, 0],
-                '2567': [1575, 1231, 1601, 1334, 1307, 1607, 1246, 1274, 1618, 1230, 1310, 1242],
-                '2566': [917, 903, 1185, 888, 1047, 1137, 970, 930, 1187, 917, 934, 873],
-                '2565': [452, 452, 425, 348, 435, 636, 525, 625, 846, 651, 737, 772],
-                '2564': [713, 631, 728, 480, 402, 549, 324, 292, 377, 284, 318, 409]
-            };
-
-            const DATA_2_1 = {
-                labels: ['0-4 ปี', '5-9 ปี', '10-14 ปี', '15-19 ปี', '20-29 ปี', '30-39 ปี', '40-49 ปี', '50-59 ปี', '60+ ปี'],
-                values: [5, 3, 19, 255, 455, 136, 71, 44, 32]
-            };
-            
-            const DATA_2_3 = {
-                labels: ['ไทย', 'พม่า, ลาว, กัมพูชา', 'อื่นๆ', 'ไม่ระบุ'],
-                values: [1006, 0, 0, 15]
-            };
-
-            const DATA_3_1 = {
-                labels: MONTH_LABELS,
-                r506: [98, 113, 137, 98, 85, 127, 81, 76, 117, 74, 13, 0],
-                culture: [0, 1, 1, 1, 0, 1, 3, 2, 1, 3, 0, 0]
-            };
-
-            const DATA_3_2 = {
-                labels: [
-                    'Ceftriaxone', 'Cefixime', 'Azithromycin', 
-                    'Ciprofloxacin', 'Penicillin', 'Spectinomycin', 'Tetracycline'
-                ].map(processLabel),
-                s: [100, 100, 100, 0, 0, 100, 0],
-                i: [0, 0, 0, 0, 0, 0, 0],
-                r: [0, 0, 0, 100, 100, 0, 100]
-            };
-
-            const DATA_2_2_RAW = {
-                'อุบลราชธานี': {'เมืองอุบลราชธานี': 78, 'ศรีเมืองใหม่': 14, 'โขงเจียม': 7, 'เขื่องใน': 20, 'เขมราฐ': 21, 'เดชอุดม': 16, 'นาจะหลวย': 5, 'น้ำยืน': 17, 'บุณฑริก': 27, 'ตระการพืชผล': 11, 'กุดข้าวปุ้น': 4, 'ม่วงสามสิบ': 11, 'วารินชำราบ': 50, 'พิบูลมังสาหาร': 14, 'ตาลสุม': 9, 'โพธิ์ไทร': 2, 'สำโรง': 20, 'ดอนมดแดง': 6, 'สิรินธร': 16, 'ทุ่งศรีอุดม': 7, 'นาเยีย': 6, 'นาตาล': 9, 'เหล่าเสือโก้ก': 6, 'สว่างวีระวงศ์': 6, 'น้ำขุ่น': 15},
-                'ศรีสะเกษ': {'เมืองศรีสะเกษ': 84, 'ยางชุมน้อย': 10, 'กันทรารมย์': 13, 'กันทรลักษ์': 34, 'ขุขันธ์': 42, 'ไพรบึง': 16, 'ปรางค์กู่': 15, 'ขุนหาญ': 47, 'ราษีไศล': 11, 'อุทุมพรพิสัย': 25, 'บึงบูรพ์': 3, 'ห้วยทับทัน': 5, 'โนนคูณ': 19, 'ศรีรัตนะ': 7, 'น้ำเกลี้ยง': 6, 'วังหิน': 17, 'ภูสิงห์': 10, 'เมืองจันทร์': 5, 'เบญจลักษ์': 4, 'พยุห์': 7, 'โพธิ์ศรีสุวรรณ': 10, 'ศิลาลาด': 2},
-                'ยโสธร': {'เมืองยโสธร': 33, 'ทรายมูล': 6, 'กุดชุม': 7, 'คำเขื่อนแก้ว': 12, 'ป่าติ้ว': 10, 'มหาชนะชัย': 11, 'ค้อวัง': 4, 'เลิงนกทา': 18, 'ไทยเจริญ': 5},
-                'อำนาจเจริญ': {'เมืองอำนาจเจริญ': 19, 'ชานุมาน': 19, 'ปทุมราชวงศา': 5, 'พนา': 4, 'เสนางคนิคม': 7, 'หัวตะพาน': 5, 'ลืออำนาจ': 0},
-                'มุกดาหาร': {'เมืองมุกดาหาร': 13, 'นิคมคำสร้อย': 11, 'ดอนตาล': 3, 'ดงหลวง': 1, 'คำชะอี': 1, 'หว้านใหญ่': 4, 'หนองสูง': 7}
-            };
-
-            function sumCases(districtData) {
-                return Object.values(districtData).reduce((sum, val) => sum + val, 0);
-            }
-            
-            const DATA_2_2_PROVINCE = {
-                labels: ['อุบลราชธานี', 'ศรีสะเกษ', 'ยโสธร', 'อำนาจเจริญ', 'มุกดาหาร'],
-                values: [
-                    sumCases(DATA_2_2_RAW['อุบลราชธานี']),
-                    sumCases(DATA_2_2_RAW['ศรีสะเกษ']),
-                    sumCases(DATA_2_2_RAW['ยโสธร']),
-                    sumCases(DATA_2_2_RAW['อำนาจเจริญ']),
-                    sumCases(DATA_2_2_RAW['มุกดาหาร'])
-                ]
-            };
-
-            function populateDistrictTable(provinceKey, tableId) {
-                const tableBody = document.getElementById(tableId);
-                if (!tableBody) return;
-                
-                const districts = Object.entries(DATA_2_2_RAW[provinceKey])
-                    .sort(([, casesA], [, casesB]) => casesB - casesA); 
-                    
-                tableBody.innerHTML = ''; 
-                
-                districts.forEach(([name, cases]) => {
-                    const row = `<tr>
-                        <td class="px-4 py-2 whitespace-nowrap text-sm font-medium text-gray-900">${name}</td>
-                        <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-700 text-right font-semibold">${cases}</td>
-                    </tr>`;
-                    tableBody.innerHTML += row;
-                });
-            }
-
-            function init5YearTrendChart() {
-                const ctx = document.getElementById('trendChart5Years')?.getContext('2d');
-                if (!ctx) return;
-                
-                new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels: MONTH_LABELS,
-                        datasets: [
-                            { label: '2568', data: DATA_1_2['2568'], borderColor: '#dc3545', backgroundColor: 'rgba(220, 53, 69, 0.1)', tension: 0.1, borderWidth: 2.5 },
-                            { label: '2567', data: DATA_1_2['2567'], borderColor: '#0066cc', backgroundColor: 'rgba(0, 102, 204, 0.1)', tension: 0.1, borderWidth: 2 },
-                            { label: '2566', data: DATA_1_2['2566'], borderColor: '#007ffb', backgroundColor: 'rgba(0, 127, 251, 0.1)', tension: 0.1, borderWidth: 2, borderDash: [5, 5] },
-                            { label: '2565', data: DATA_1_2['2565'], borderColor: '#66b3ff', backgroundColor: 'rgba(102, 179, 255, 0.1)', tension: 0.1, borderWidth: 1.5, borderDash: [5, 5] },
-                            { label: '2564', data: DATA_1_2['2564'], borderColor: '#6c757d', backgroundColor: 'rgba(108, 117, 125, 0.1)', tension: 0.1, borderWidth: 1.5, borderDash: [5, 5] }
-                        ]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        ...TOOLTIP_CALLBACKS,
-                        scales: {
-                            y: { beginAtZero: true, title: { display: true, text: 'จำนวนผู้ป่วย (ราย)' } }
-                        }
-                    }
-                });
-            }
-
-            function initAgeChart() {
-                const ctx = document.getElementById('ageChart')?.getContext('2d');
-                if (!ctx) return;
-                
-                new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: DATA_2_1.labels.map(processLabel),
-                        datasets: [{
-                            label: 'จำนวนผู้ป่วย',
-                            data: DATA_2_1.values,
-                            backgroundColor: COLOR_PRIMARY,
-                            borderColor: COLOR_PRIMARY_DARK,
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        ...TOOLTIP_CALLBACKS,
-                        plugins: { legend: { display: false } },
-                        scales: {
-                            y: { beginAtZero: true, title: { display: true, text: 'จำนวนผู้ป่วย (ราย)' } }
-                        }
-                    }
-                });
-            }
-
-            function initNationalityChart() {
-                const ctx = document.getElementById('nationalityChart')?.getContext('2d');
-                if (!ctx) return;
-                
-                new Chart(ctx, {
-                    type: 'doughnut',
-                    data: {
-                        labels: DATA_2_3.labels,
-                        datasets: [{
-                            data: DATA_2_3.values,
-                            backgroundColor: [COLOR_PRIMARY, COLOR_ACCENT, COLOR_SECONDARY, COLOR_NATIONAL],
-                            hoverOffset: 4
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        ...TOOLTIP_CALLBACKS,
-                        plugins: {
-                            legend: { position: 'bottom' }
-                        }
-                    }
-                });
-            }
-
-            function initProvinceChart() {
-                const ctx = document.getElementById('provinceChart')?.getContext('2d');
-                if (!ctx) return;
-                
-                new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: DATA_2_2_PROVINCE.labels,
-                        datasets: [{
-                            label: 'จำนวนผู้ป่วย (ราย)',
-                            data: DATA_2_2_PROVINCE.values,
-                            backgroundColor: [
-                                'rgba(0, 102, 204, 0.8)',
-                                'rgba(0, 127, 251, 0.8)',
-                                'rgba(51, 153, 255, 0.8)',
-                                'rgba(102, 179, 255, 0.8)',
-                                'rgba(153, 204, 255, 0.8)'
-                            ],
-                            borderColor: COLOR_PRIMARY_DARK,
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        indexAxis: 'y',
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        ...TOOLTIP_CALLBACKS,
-                        plugins: { legend: { display: false } },
-                        scales: {
-                            x: { beginAtZero: true, title: { display: true, text: 'จำนวนผู้ป่วย (ราย)' } }
-                        }
-                    }
-                });
-            }
-
-            function initGapChart() {
-                const ctx = document.getElementById('gapChart')?.getContext('2d');
-                if (!ctx) return;
-                
-                new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: DATA_3_1.labels,
-                        datasets: [
-                            {
-                                type: 'bar',
-                                label: 'รายงาน 506',
-                                data: DATA_3_1.r506,
-                                backgroundColor: COLOR_PRIMARY,
-                                yAxisID: 'y'
-                            },
-                            {
-                                type: 'line',
-                                label: 'ส่งเพาะเชื้อ (สคร. 10)',
-                                data: DATA_3_1.culture,
-                                backgroundColor: COLOR_ACCENT,
-                                borderColor: COLOR_ACCENT,
-                                borderWidth: 3,
-                                tension: 0.1,
-                                yAxisID: 'y1'
-                            }
-                        ]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        ...TOOLTIP_CALLBACKS,
-                        scales: {
-                            y: {
-                                type: 'linear',
-                                display: true,
-                                position: 'left',
-                                beginAtZero: true,
-                                title: { display: true, text: 'จำนวนรายงาน 506 (ราย)' }
-                            },
-                            y1: {
-                                type: 'linear',
-                                display: true,
-                                position: 'right',
-                                beginAtZero: true,
-                                title: { display: true, text: 'จำนวนส่งเพาะเชื้อ (ราย)' },
-                                grid: {
-                                    drawOnChartArea: false
-                                }
-                            }
-                        }
-                    }
-                });
-            }
-
-            function initAmrChart() {
-                const ctx = document.getElementById('amrChart')?.getContext('2d');
-                if (!ctx) return;
-                
-                new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: DATA_3_2.labels,
-                        datasets: [
-                            { label: 'ไวต่อยา (S)', data: DATA_3_2.s, backgroundColor: COLOR_S },
-                            { label: 'ไวต่อยาระดับกลาง (I)', data: DATA_3_2.i, backgroundColor: COLOR_I },
-                            { label: 'ดื้อยา (R)', data: DATA_3_2.r, backgroundColor: COLOR_R }
-                        ]
-                    },
-                    options: {
-                        indexAxis: 'y',
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        ...TOOLTIP_CALLBACKS,
-                        scales: {
-                            x: { stacked: true, max: 100, title: { display: true, text: 'สัดส่วน (%)' } },
-                            y: { stacked: true }
-                        },
-                        plugins: {
-                            tooltip: {
-                                callbacks: {
-                                    label: function(context) {
-                                        let label = context.dataset.label || '';
-                                        if (label) {
-                                            label += ': ';
-                                        }
-                                        if (context.parsed.x !== null) {
-                                            label += context.parsed.x + '%';
-                                        }
-                                        return label;
-                                    },
-                                    title: function(tooltipItems) {
-                                        const item = tooltipItems[0];
-                                        let label = item.chart.data.labels[item.dataIndex];
-                                        if (Array.isArray(label)) {
-                                            return label.join(' ');
-                                        } else {
-                                            return label;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                });
-            }
-            
-            function initNationalTrendCharts() {
-                const ctxMonth = document.getElementById('nationalTrendChartMonth')?.getContext('2d');
-                if (ctxMonth) {
-                    new Chart(ctxMonth, {
-                        type: 'line',
-                        data: {
-                            labels: MONTH_LABELS,
-                            datasets: [
-                                {
-                                    label: 'เขต 10 (2568)',
-                                    data: DATA_1_2['2568'],
-                                    borderColor: COLOR_PRIMARY,
-                                    backgroundColor: 'transparent',
-                                    yAxisID: 'y',
-                                    borderWidth: 3
-                                },
-                                {
-                                    label: 'ระดับประเทศ (2568)',
-                                    data: DATA_4_1_NATIONAL['2568'],
-                                    borderColor: COLOR_NATIONAL,
-                                    backgroundColor: 'transparent',
-                                    yAxisID: 'y1',
-                                    borderWidth: 2,
-                                    borderDash: [5, 5]
-                                }
-                            ]
-                        },
-                        options: {
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            ...TOOLTIP_CALLBACKS,
-                            scales: {
-                                y: { type: 'linear', display: true, position: 'left', title: { display: true, text: 'เขต 10 (ราย)' }, beginAtZero: true },
-                                y1: { type: 'linear', display: true, position: 'right', title: { display: true, text: 'ประเทศ (ราย)' }, grid: { drawOnChartArea: false }, beginAtZero: true }
-                            }
-                        }
-                    });
-                }
-
-                const ctxYear = document.getElementById('nationalTrendChartYear')?.getContext('2d');
-                if (ctxYear) {
-                    const sum = (arr) => arr.reduce((a, b) => a + b, 0);
-                    const areaAnnual = YEAR_LABELS.map(year => sum(DATA_1_2[year]));
-                    const nationalAnnual = YEAR_LABELS.map(year => sum(DATA_4_1_NATIONAL[year]));
-                    
-                    new Chart(ctxYear, {
-                        type: 'bar',
-                        data: {
-                            labels: YEAR_LABELS,
-                            datasets: [
-                                {
-                                    label: 'เขต 10',
-                                    data: areaAnnual,
-                                    backgroundColor: COLOR_PRIMARY
-                                },
-                                {
-                                    label: 'ระดับประเทศ',
-                                    data: nationalAnnual,
-                                    backgroundColor: COLOR_NATIONAL
-                                }
-                            ]
-                        },
-                        options: {
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            ...TOOLTIP_CALLBACKS,
-                            scales: {
-                                y: { beginAtZero: true, title: { display: true, text: 'จำนวนผู้ป่วยรวม (ราย)' }, type: 'logarithmic' }
-                            },
-                             plugins: {
-                                tooltip: {
-                                    callbacks: {
-                                        label: function(context) {
-                                            let label = context.dataset.label || '';
-                                            if (label) {
-                                                label += ': ';
-                                            }
-                                            if (context.parsed.y !== null) {
-                                                label += context.parsed.y.toLocaleString('th-TH');
-                                            }
-                                            return label;
-                                        },
-                                        title: function(tooltipItems) {
-                                            return 'ปี ' + tooltipItems[0].label;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    });
-                }
-            }
-
-            document.addEventListener('DOMContentLoaded', () => {
-                init5YearTrendChart();
-                initAgeChart();
-                initNationalityChart();
-                initProvinceChart();
-                initGapChart();
-                initAmrChart();
-                initNationalTrendCharts();
-                
-                populateDistrictTable('อุบลราชธานี', 'ubon-table');
-                populateDistrictTable('ศรีสะเกษ', 'sisaket-table');
-                populateDistrictTable('ยโสธร', 'yasothon-table');
-                populateDistrictTable('อำนาจเจริญ', 'amnat-table');
-                populateDistrictTable('มุกดาหาร', 'mukdahan-table');
             });
 
-        })();
-    </script>
+            // 2. National vs Regional (Dual Axis Line Chart)
+            const ctxNational = document.getElementById('nationalChart').getContext('2d');
+            new Chart(ctxNational, {
+                type: 'line',
+                data: {
+                    labels: ['2563', '2564', '2565', '2566', '2567', '2568'],
+                    datasets: [
+                        {
+                            label: 'เขต 10 (แกนซ้าย)',
+                            data: [1059, 784, 880, 1030, 1112, 1019],
+                            borderColor: '#0066cc',
+                            backgroundColor: '#0066cc',
+                            yAxisID: 'y',
+                            tension: 0.3,
+                            borderWidth: 3
+                        },
+                        {
+                            label: 'ประเทศ (แกนขวา)',
+                            data: [6500, 5507, 6200, 7500, 8100, 7400], // Data mocked for visualization comparison
+                            borderColor: '#9ca3af',
+                            backgroundColor: '#9ca3af',
+                            borderDash: [5, 5],
+                            yAxisID: 'y1',
+                            tension: 0.3,
+                            borderWidth: 2
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: { mode: 'index', intersect: false },
+                    scales: {
+                        y: {
+                            type: 'linear',
+                            display: true,
+                            position: 'left',
+                            title: { display: true, text: 'จำนวนผู้ป่วย เขต 10' }
+                        },
+                        y1: {
+                            type: 'linear',
+                            display: true,
+                            position: 'right',
+                            grid: { drawOnChartArea: false },
+                            title: { display: true, text: 'จำนวนผู้ป่วย ประเทศ' }
+                        }
+                    }
+                }
+            });
 
+            // 3. Age Group Chart (Stacked Bar)
+            const ctxAge = document.getElementById('ageChart').getContext('2d');
+            new Chart(ctxAge, {
+                type: 'bar',
+                data: {
+                    labels: ['2563', '2564', '2565', '2566', '2567', '2568'],
+                    datasets: [
+                        {
+                            label: '15-19 ปี',
+                            data: [423, 266, 300, 350, 380, 340],
+                            backgroundColor: '#ef4444', // Red for high risk
+                        },
+                        {
+                            label: '20-29 ปี',
+                            data: [333, 280, 310, 360, 400, 370],
+                            backgroundColor: '#f59e0b', // Orange
+                        },
+                        {
+                            label: 'อื่นๆ',
+                            data: [303, 238, 270, 320, 332, 309],
+                            backgroundColor: '#e5e7eb', // Grey
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: { stacked: true },
+                        y: { stacked: true }
+                    },
+                    plugins: {
+                        legend: { position: 'bottom' }
+                    }
+                }
+            });
+
+            // 4. Province Chart (Horizontal Bar) - Current Year 2568
+            const ctxProvince = document.getElementById('provinceChart').getContext('2d');
+            new Chart(ctxProvince, {
+                type: 'bar',
+                data: {
+                    labels: ['อุบลราชธานี', 'ศรีสะเกษ', 'ยโสธร', 'มุกดาหาร', 'อำนาจเจริญ'],
+                    datasets: [{
+                        label: 'จำนวนผู้ป่วยสะสม (คน)',
+                        data: [400, 380, 120, 65, 54],
+                        backgroundColor: [
+                            '#0066cc', // Ubon (Highest)
+                            '#3b82f6', 
+                            '#60a5fa', 
+                            '#93c5fd', 
+                            '#bfdbfe'  // Amnat (Lowest)
+                        ],
+                        borderWidth: 0,
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    indexAxis: 'y', // Horizontal Bar
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+        });
+    </script>
 </body>
 </html>

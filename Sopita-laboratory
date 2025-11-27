@@ -38,8 +38,8 @@
 
         <header class="text-center mb-10">
             <h1 class="text-4xl font-bold mb-2">สถานการณ์โรคหนองใน เขตสุขภาพที่ 10</h1>
-            <p class="text-xl text-gray-600">สรุปข้อมูล ณ ตุลาคม 2568 (ข้อมูลย้อนหลัง 2563 - 2568)</p>
-            <p class="text-lg text-gray-500">ที่มา: ห้องปฏิบัติการทางการแพทย์ด้านควบคุมโรค สคร. 10 อุบลราชธานี, ข้อมูล 506 กองระบาดวิทยา</p>
+            <p class="text-xl text-gray-600">สรุปข้อมูล ณ พฤศจิกายน 2568 (ข้อมูลย้อนหลัง 2563 - 2568)</p>
+            <p class="text-lg text-gray-500">ที่มา: ห้องปฏิบัติการทางการแพทย์ด้านควบคุมโรค สคร. 10 อุบลราชธานี, ข้อมูล D506 กองระบาดวิทยา</p>
         </header>
 
         <!-- ========== SECTION 1: Key Metrics (6 Cards) ========== -->
@@ -56,7 +56,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0z" />
                         </svg>
                     </div>
-                    <div class="text-4xl font-bold text-blue-800">1,019</div>
+                    <div class="text-4xl font-bold text-blue-800">1,099</div>
                     <div class="text-sm font-medium text-gray-500 mt-2">ผู้ป่วยสะสม (ม.ค.-พ.ย. 2568)</div>
                 </div>
 
@@ -67,8 +67,8 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
                         </svg>
                     </div>
-                    <div class="text-4xl font-bold text-yellow-800">74</div>
-                    <div class="text-sm font-medium text-gray-500 mt-2">ผู้ป่วยรายใหม่ (ต.ค. 2568)</div>
+                    <div class="text-4xl font-bold text-yellow-800">73</div>
+                    <div class="text-sm font-medium text-gray-500 mt-2">ผู้ป่วยรายใหม่ (พ.ย. 2568)</div>
                 </div>
 
                 <!-- Card 3: อัตราป่วย (Indigo) -->
@@ -130,7 +130,7 @@
                     <div class="chart-container">
                         <canvas id="trendChart"></canvas>
                     </div>
-                    <p class="text-sm text-gray-500 mt-4 text-center">*ข้อมูลปี 2568 เป็นยอดสะสมถึงเดือนตุลาคม</p>
+                    <p class="text-sm text-gray-500 mt-4 text-center">*ข้อมูลปี 2568 เป็นยอดสะสมถึงเดือนพฤศจิกายน</p>
                 </div>
 
                 <!-- Chart: National Comparison -->

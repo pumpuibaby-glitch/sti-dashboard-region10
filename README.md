@@ -226,8 +226,8 @@
                                 <td class="py-3 px-6 text-center">400</td>
                                 <td class="py-3 px-6 text-center">380</td>
                                 <td class="py-3 px-6 text-center">120</td>
-                                <td class="py-3 px-6 text-center">65</td>
-                                <td class="py-3 px-6 text-center">54</td>
+                                <td class="py-3 px-6 text-center">66</td>
+                                <td class="py-3 px-6 text-center">47</td>
                                 <td class="py-3 px-6 text-center font-bold text-blue-700">1,099</td>
                             </tr>
                         </tbody>
@@ -368,16 +368,16 @@
             new Chart(ctxProvince, {
                 type: 'bar',
                 data: {
-                    labels: ['อุบลราชธานี', 'ศรีสะเกษ', 'ยโสธร', 'มุกดาหาร', 'อำนาจเจริญ'],
+                    labels: ['อุบลราชธานี', 'ศรีสะเกษ', 'ยโสธร', 'อำนาจเจริญ','มุกดาหาร'],
                     datasets: [{
                         label: 'จำนวนผู้ป่วยสะสม (คน)',
-                        data: [400, 380, 120, 65, 54],
+                        data: [454, 414, 118, 66, 47],
                         backgroundColor: [
                             '#0066cc', // Ubon (Highest)
                             '#3b82f6', 
                             '#60a5fa', 
-                            '#93c5fd', 
-                            '#bfdbfe'  // Amnat (Lowest)
+                            '#bfdbfe'  
+                            '#93c5fd', // Muk (Lowest)
                         ],
                         borderWidth: 0,
                         borderRadius: 4
@@ -399,4 +399,3 @@
     </script>
 </body>
 </html>
-

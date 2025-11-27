@@ -223,11 +223,11 @@
                             </tr>
                              <tr class="border-b border-gray-200 hover:bg-gray-50 bg-blue-50">
                                 <td class="py-3 px-6 text-left whitespace-nowrap font-medium">2568 (ต.ค.)</td>
-                                <td class="py-3 px-6 text-center">400</td>
-                                <td class="py-3 px-6 text-center">380</td>
-                                <td class="py-3 px-6 text-center">120</td>
-                                <td class="py-3 px-6 text-center">65</td>
-                                <td class="py-3 px-6 text-center">54</td>
+                                <td class="py-3 px-6 text-center">454</td>
+                                <td class="py-3 px-6 text-center">414</td>
+                                <td class="py-3 px-6 text-center">118</td>
+                                <td class="py-3 px-6 text-center">66</td>
+                                <td class="py-3 px-6 text-center">47</td>
                                 <td class="py-3 px-6 text-center font-bold text-blue-700">1,099</td>
                             </tr>
                         </tbody>

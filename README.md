@@ -764,21 +764,21 @@
                 }
             });
 
-            // 4. Province Chart (Horizontal Bar) - Current Year 2568
+               // 4. Province Chart (Horizontal Bar) - Current Year 2568
             const ctxProvince = document.getElementById('provinceChart').getContext('2d');
             new Chart(ctxProvince, {
                 type: 'bar',
                 data: {
-                    labels: ['อุบลราชธานี', 'ศรีสะเกษ', 'ยโสธร', 'มุกดาหาร', 'อำนาจเจริญ'],
+                    labels: ['อุบลราชธานี', 'ศรีสะเกษ', 'ยโสธร', 'อำนาจเจริญ','มุกดาหาร'],
                     datasets: [{
                         label: 'จำนวนผู้ป่วยสะสม (คน)',
-                        data: [400, 380, 120, 65, 54],
+                        data: [454, 414, 118, 66, 47],
                         backgroundColor: [
                             '#0066cc', // Ubon (Highest)
                             '#3b82f6', 
                             '#60a5fa', 
-                            '#93c5fd', 
-                            '#bfdbfe'  // Amnat (Lowest)
+                            '#bfdbfe'  
+                            '#93c5fd', // Muk (Lowest)
                         ],
                         borderWidth: 0,
                         borderRadius: 4

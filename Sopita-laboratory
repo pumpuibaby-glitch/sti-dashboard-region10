@@ -86,7 +86,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6" />
                         </svg>
                     </div>
-                    <div class="text-4xl font-bold text-red-600">-8.37%</div>
+                    <div class="text-4xl font-bold text-red-600">-13.66%</div>
                     <div class="text-sm font-medium text-gray-500 mt-2">เทียบกับปีก่อน (YTD)</div>
                 </div>
 
@@ -129,7 +129,7 @@
                 </div>
 
                 <div class="bg-white p-6 rounded-lg shadow-md">
-                    <h3 class="text-lg font-semibold text-gray-700 mb-4 text-center">เปรียบเทียบ เขตสุขภาพที่ 10 vs ประเทศ (2 แกน)</h3>
+                    <h3 class="text-lg font-semibold text-gray-700 mb-4 text-center">เปรียบเทียบ เขตสุขภาพที่ 10 vs ประเทศ </h3>
                     <div class="chart-container">
                         <canvas id="nationalChart"></canvas>
                     </div>
@@ -150,12 +150,13 @@
                 </div>
 
                 <div class="bg-white p-6 rounded-lg shadow-md">
-                    <h3 class="text-lg font-semibold text-gray-700 mb-4 text-center">สัดส่วนผู้ป่วยรายจังหวัด (ปี 2568) เรียงน้อยไปมาก</h3>
+                    <h3 class="text-lg font-semibold text-gray-700 mb-4 text-center">สัดส่วนผู้ป่วยรายจังหวัด (ปี 2568) </h3>
                     <div class="chart-container">
                         <canvas id="provinceChart"></canvas>
                     </div>
                 </div>
             </div>
+            
         </section>
         
         <!-- Table Section: Detailed Data (เรียงลำดับใหม่) -->
@@ -274,7 +275,7 @@
                     labels: ['2563', '2564', '2565', '2566', '2567', '2568'],
                     datasets: [
                         {
-                            label: 'เขต 10 (แกนซ้าย)',
+                            label: 'เขต 10 ',
                             data: [1059, 784, 880, 1030, 1112, 1099],
                             borderColor: '#0066cc',
                             backgroundColor: '#0066cc',
@@ -283,7 +284,7 @@
                             borderWidth: 3
                         },
                         {
-                            label: 'ประเทศ (แกนขวา)',
+                            label: 'ประเทศ ',
                             data: [7761, 5507, 6904, 11888, 16582, 15394],
                             borderColor: '#9ca3af',
                             backgroundColor: '#9ca3af',
@@ -325,7 +326,7 @@
                 }
             });
 
-            // 4. Province Chart (เรียงลำดับใหม่ น้อยไปมาก)
+            // 4. Province Chart 
             const ctxProvince = document.getElementById('provinceChart').getContext('2d');
             new Chart(ctxProvince, {
                 type: 'bar',
